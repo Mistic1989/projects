@@ -1,0 +1,69 @@
+
+<body id="author-form-page">
+
+<div class="main">
+  <header>
+    <nav tpl-include="{{ $menu }}">
+
+    </nav>
+    <br>
+    <tpl tpl-if="$message">
+      <tpl tpl-foreach="$message as $error">
+        <span class='message error' id='error-block'>{{ $error }}</span>
+        <br>
+      </tpl>
+    </tpl>
+
+    <br>
+    <form method="POST" action="?" class="table-container">
+      <div class="title-class">
+        <label>Eesnimi:</label>
+      </div>
+      <div class="input-class">
+        <input type="text" name="firstName" value="{{ $firstName }}">
+      </div>
+
+      <div class="title-class">
+        <label>Perekonnanimi:</label>
+      </div>
+      <div class="input-class">
+        <input type="text" name="lastName" value="{{ $lastName }}">
+      </div>
+
+      <div class="title-class">
+        <label>Hinne:</label>
+      </div>
+      <div class="input-class">
+        <tpl tpl-foreach="range(1, 5) as $num">
+          <label>
+            <input type="radio"
+                   name="grade"
+                   tpl-checked="$num === $grade"
+                   value="{{ $num }}"/>
+            {{ $num }}
+          </label>
+        </tpl>
+      </div>
+      <div class="button-class"></div>
+      <div class="input-class">
+        <tpl tpl-if="$deleteVisible">
+          <button type="submit" name="deleteButton" class="danger"
+                  value="author-delete={{ $id }}">Kustuta</button>
+        </tpl>
+
+        <tpl tpl-if="$submitValue === 'author-add'">
+        <button type="submit" name="submitButton"
+                value="{{ $submitValue }}">Salvesta</button>
+        </tpl>
+        <tpl tpl-if="$submitValue === 'author-edit'">
+          <button type="submit" name="submitButton"
+                  value="author-edit={{ $id }}">Salvesta</button>
+        </tpl>
+      </div>
+
+    </form>
+    <br>
+    <footer tpl-include="{{ $footer }}"></footer>
+  </header>
+</div>
+</body>

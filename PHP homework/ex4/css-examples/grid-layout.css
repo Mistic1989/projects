@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: 2.5rem auto 2.5rem;
+}
+
+header, footer {
+    background-color: lightblue
+}

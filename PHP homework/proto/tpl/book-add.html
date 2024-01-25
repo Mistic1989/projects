@@ -1,0 +1,89 @@
+
+<body id="book-form-page">
+
+<div class="main">
+    <header>
+    <nav tpl-include="{{ $menu }}">
+
+    </nav>
+    <br>
+
+    <tpl tpl-if="$message">
+        <span class='message error' id='error-block'>{{ $message[0] }}</span>
+    </tpl>
+
+    <br>
+    <form method="POST" action="?" class="table-container">
+        <div class="title-class">
+            <label>Pealkiri:</label>
+        </div>
+        <div class="input-class">
+
+            <input type="text" name="title" value="{{ $title }}">
+
+        </div>
+
+        <div class="title-class">
+            <label>Autor 1:</label>
+        </div>
+        <div class="input-class">
+            <select id="author1" name="author1">
+                <option value="{{$author_id}}">{{ $firstName }} {{ $lastName }}</option>
+                <tpl tpl-foreach="$authors as $author">
+                    <option value="{{ $author->id }}">{{ $author->firstName }} {{ $author->lastName }}</option>
+                </tpl>
+            </select>
+        </div>
+
+        <div class="title-class">
+            <label>Autor 2:</label>
+        </div>
+        <div class="input-class">
+            <select id="author2" name="author2">
+                <option value="{{$author_id2}}">{{ $firstName2 }} {{ $lastName2 }}</option>
+                <tpl tpl-foreach="$authors as $author">
+                    <option value="{{ $author->id }}">{{ $author->firstName }} {{ $author->lastName }}</option>
+                </tpl>
+            </select>
+        </div>
+
+        <div class="title-class">
+            <label>Hinne:</label>
+        </div>
+        <div class="input-class">
+            <tpl tpl-foreach="range(1, 5) as $num">
+                <label>
+                    <input type="radio"
+                           name="grade"
+                           tpl-checked="$num === $grade"
+                           value="{{ $num }}"/>
+                           {{ $num }}
+                </label>
+            </tpl>
+        </div>
+
+        <div class="title-class">
+            <label>Loetud:</label>
+        </div>
+        <div class="input-class">
+            <input name="isRead"
+                   tpl-checked="$isRead"
+                   type="checkbox" />
+        </div>
+
+        <div class="title-class"></div>
+        <div class="input-class">
+            <tpl tpl-if="$deleteVisible">
+                <button type="submit" class="danger" name="deleteButton"
+                        value="{{ $deleteValue }}">Kustuta</button>
+            </tpl>
+            <button type="submit" name="submitButton"
+                    value="{{ $submitValue }}">Salvesta</button>
+        </div>
+
+    </form>
+    <br>
+    <footer tpl-include="{{ $footer }}"></footer>
+    </header>
+</div>
+</body>

@@ -1,0 +1,1 @@
+Java Servlet, Gradle, Jdbc, Spring Core, Spring MVC, Jpa, Spring Security, Spring Boot, Spring Data

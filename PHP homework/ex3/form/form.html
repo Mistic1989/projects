@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+
+    <form method="post" action="params.php">
+
+        <input type="hidden" name="hidden_field" value="some_invisible_data">
+
+        <input type="text" name="text_field" value="Vaikeväärtus"> <br>
+
+        <input type="checkbox" name="checkbox_field" value="1"> <br>
+
+        <select name="select_field">
+            <option value="" label=" "></option>
+            <option>Valik 1</option>
+            <option value="1">Valik 2</option>
+        </select>
+
+        <br>
+
+        <input type="radio" name="radio_field" value="1">
+        <input type="radio" name="radio_field" value="2">
+
+        <br>
+        <br>
+        <br>
+
+        <input type="submit" name="button1" value="Saada (input)"/>
+
+        <br>
+        <br>
+
+        <button type="submit" name="button2" value="buttonValue">Saada (button)</button>
+
+    </form>
+
+</body>
+</html>

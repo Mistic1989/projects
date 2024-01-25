@@ -1,0 +1,123 @@
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+header{
+    display: grid;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgba(7,15,9,0.6);
+}
+
+nav, footer {
+    border-radius: .25rem;
+    background-color: #CDEDF6;
+    padding-bottom: 0.3rem;
+    padding-top: 0.3rem;
+    padding-left: 0.5rem;
+    text-align: center;
+}
+
+.message {
+    height: 9px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #C0E0F0;
+    border-radius: .25rem;
+    padding: 0.5rem 0.5rem 1rem;
+    background-color: #d4edda;
+}
+
+.error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.rating {
+    color: rgba(7,15,9,0.25);
+}
+
+.main {
+    flex: 1;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 85vh;
+}
+
+.grid-container {
+    width: 610px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-row-gap: 10px;
+}
+.table-container {
+    width: 610px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 10px;
+    grid-row-gap: 5px;
+}
+
+.title-class {
+    text-align: right;
+}
+
+.input-class {
+    text-align: left;
+    line-height: 1.3rem;
+}
+
+input[type=text], button[type='submit'], select {
+    font-size: 0.8rem;
+    width: 19rem;
+    padding: 0.3rem;
+    margin-top: 3px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: .25rem;
+}
+
+button[type='submit'] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 6rem;
+    font-size: 1rem;
+}
+
+button[type='submit'].danger {
+    background-color: #dc3545;
+}
+
+.checked {
+    color: orange;
+}
+
+.breakline {
+    border: 1px solid #666;
+}
+
+.score-filled {
+    color: darkorange;
+}
+
+.score-empty {
+    color: lightgray;
+}

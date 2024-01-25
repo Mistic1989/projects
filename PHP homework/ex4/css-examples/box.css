@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+#outer-div {
+    height: 200px;
+    width: 200px;
+    border: 2px solid red;
+}
+
+#inner-div {
+    height: 100px;
+    width: 100px;
+    border: 10px solid lightgray;
+    margin: 15px;
+    padding: 10px;
+}
+
+table { width: 200px; border-collapse: collapse; margin-top: 10px }
+#text-col { text-align: center }
+#line { height: 1px; background-color: blue }
+.serif { height: 3px; width: 1px; background-color: blue }

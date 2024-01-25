@@ -1,0 +1,45 @@
+
+<body id="author-list-page">
+
+<div class="main">
+  <header>
+    <nav tpl-include="{{ $menu }}">
+
+    </nav>
+    <br>
+    <tpl tpl-if="$message">
+      <span class='message' id='error-block'>{{ $message }}</span>
+    </tpl>
+    <br>
+    <div class="grid-container">
+      <div>Eesnimi</div>
+      <div>Perekonnanimi</div>
+      <div>Hinne</div>
+
+      <div class="breakline"></div>
+      <div class="breakline"></div>
+      <div class="breakline"></div>
+
+
+      <tpl tpl-foreach="$authors as $author">
+
+        <div class='grid-item'>
+          <a href='?command=author-edit&id={{ strval($author->id) }}'>{{$author->firstName}}</a>
+        </div>
+
+        <div class='grid-item'>{{ $author->lastName }}</div>
+
+        <div class='grid-item  score-empty'>
+          <tpl tpl-foreach="range(1, 5) as $grade" tpl-trim-contents>
+            <span tpl-class="score-filled if $author->grade >= $grade">&#9733;</span>
+          </tpl>
+        </div>
+
+      </tpl>
+
+    </div>
+    <br>
+    <footer tpl-include="{{ $footer }}"></footer>
+  </header>
+</div>
+</body>

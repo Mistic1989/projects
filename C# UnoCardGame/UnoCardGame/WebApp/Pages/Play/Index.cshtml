@@ -1,0 +1,266 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Domain
+@using UnoEngine
+@using System.Text
+@model WebApp.Pages.Play.Index
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cards.css">
+}
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+
+<h1>Active player is @Model.Engine.State.CurrentPlayer!.NickName in position: @Model.Engine.State.CurrentPlayer.Position</h1>
+
+@if (Model.Engine.State.PlayerFinishedTurn && Model.Engine.State.CurrentPlayer!.Id == Model.PlayerId
+     || (Model.DrawCardResult != null && Model.DrawCardResult.CannotPlayDrawnCard))
+{
+    <h5>Your turn ends in <span id="counter">-</span></h5>
+}
+
+@if (Model.Engine.State.Message != null)
+{
+    <h2>@Model.Engine.State.Message</h2>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" style="pointer-events: none;">
+            @if (Model.DrawCardResult != null)
+            {
+                <h1>Drawn card is: @Model.DrawCardResult.DrawnCard?.CardValue, @Model.DrawCardResult.DrawnCard?.CardColor</h1>
+                @Html.Raw(Model.DrawCardResult.DrawnCard?.DisplayCard)
+                @if (Model.DrawCardResult != null && Model.DrawCardResult.CannotPlayDrawnCard)
+                {
+                    <h1>You cannot play this card. It will be next player's turn.</h1>
+                }
+            }
+            @if (Model.DrawCardResult == null && Model.SelectedCardByPlayer != null)
+            {
+                <div>
+                    <h1 style="color: #30e80b">You selected @Model.SelectedCardByPlayer?.CardColor, @Model.SelectedCardByPlayer?.CardValue</h1>
+                    @Html.Raw(Model.SelectedCardByPlayer?.DisplayCard)
+                </div>
+            }
+        </div>
+        
+        <div class="col-md-3 d-flex flex-column align-items-center">
+            <div>
+                <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-handler="DrawCard">
+                    @if ((Model.PlayCardResult != null && Model.PlayCardResult.ShouldDeclareColor)
+                         || Model.DrawCardResult != null
+                         || Model.SelectedCardByPlayer != null
+                         || Model.Engine.State.CurrentPlayer!.Id != Model.PlayerId)
+                    {
+                        <button type="submit" class="btn btn-success btn-lg mb-3" style="pointer-events: none; opacity: 0.6">Draw Card</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-success btn-lg mb-3">Draw Card</button>
+                    }
+                </form>
+            </div>
+            
+            @* @if ((Model.PlayCardResult != null && Model.PlayCardResult.ShouldDeclareColor) *@
+            @*      || Model.Engine.State.CurrentPlayer!.Id != Model.PlayerId) *@
+            @* { *@
+            @*     <div><button type="submit" class="btn btn-success btn-lg" style="pointer-events: none; opacity: 0.6">Shout UNO</button></div> *@
+            @* } *@
+            @if(Model.Engine.State.PlayerFinishedTurn && Model.Engine.State.CurrentPlayer!.Id == Model.PlayerId)
+            {
+                <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-handler="SwitchToNextPlayer">
+                    <div><button type="submit" class="btn btn-success btn-lg" name="shoutUno" value="s">Shout UNO</button></div>
+                </form>
+            }
+            else
+            {
+                <div><button type="submit" class="btn btn-success btn-lg" style="pointer-events: none; opacity: 0.6">Shout UNO</button></div>
+            }
+            
+            @if (Model.Engine.State.PreviousTurn != null && Model.Engine.State.PreviousTurn!.DidShoutUno)
+            {
+                <h1 style="color: red">@Model.PreviousTurn!.Player!.NickName SHOUTED UNO!</h1>
+            }
+            
+            @if (Model.Engine.State.ShoutedUno && Model.Engine.State.CurrentPlayer!.Id != Model.PlayerId)
+            {
+                
+                <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-handler="PreviousPlayerShoutedUno">
+                    <div><button type="submit" class="btn btn-success btn-lg">Challenge player @Model.PreviousTurn!.Player!.NickName</button></div>
+                </form>
+                
+                @if (Model.PlayerShoutedUno != null && Model.PlayerShoutedUno.ShouldDrawCards)
+                {
+                    <h1 style="color: red">@Model.PreviousTurn!.Player!.NickName had one card in hand and didn't shout Uno!</h1>
+                    <h1 style="color: red">@Model.PreviousTurn!.Player!.NickName will draw two cards!</h1>
+                }
+            }
+            @if(Model.PlayerShoutedUno != null && !Model.PlayerShoutedUno.ShouldDrawCards)
+            {
+                <h1>@Model.PreviousTurn!.Player!.NickName wont draw any cards this time!</h1>
+            }
+            @if (Model.Engine.State.HandleDrawFourCard)
+            {
+                <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-PreviousPlayerId="@Model.PreviousPlayerId"
+                     asp-route-handler="HandleChallengeDrawFour">
+                    <div><button type="submit" class="btn btn-success btn-lg mb-3" name="input" value="c">Challenge player @Model.PreviousTurn!.Player!.NickName</button></div>
+                    <div><button type="submit" class="btn btn-success btn-lg mb-3" name="input" value="">Skip</button></div>
+                </form>
+            }
+            
+            @* @if (Model.Engine.State.HandleDrawFourCard) *@
+            @* { *@
+            @*     StringBuilder message = new StringBuilder(); *@
+            @*      *@
+            @*     <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-handler="HandleChallengeDrawFour"> *@
+            @*         <div><button type="submit" class="btn btn-success btn-lg" name="challengeDrawFour" value="c">Challenge player @Model.PreviousTurn!.Player!.NickName</button></div> *@
+            @*     </form>  *@
+            @*      *@
+            @*     if (Model.HandleDrawFourCard != null && Model.HandleChallenge != null && Model.HandleChallenge.DidCheat) *@
+            @*     { *@
+            @*         // WriteLine($"LAST PLAY CARD ON THE TABLE WAS:" + *@
+            @*         //                   $" {handleChallengeResult.PenultimateCard!.CardValue}" + *@
+            @*         //                   $" {handleChallengeResult.PenultimateCard!.CardColor}"); *@
+            @*         // WriteLine(); *@
+            @*         // WriteLine($"Previous player {handleDrawFourResult.PreviousPlayer!.NickName}" + *@
+            @*         //                   $" had these cards:"); *@
+            @*         // handleDrawFourResult.PreviousPlayer!.Hand!.ForEach(x =>  *@
+            @*         // WriteLine($"{x.CardValue}, {x.CardColor}")); *@
+            @*         // WriteLine($"{handleDrawFourResult.PreviousPlayer?.NickName}" + *@
+            @*         //                   $" cheated and draws 4 cards!"); *@
+            @*         <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName was challenged</h1> *@
+            @*         <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName cheated and draws 4 cards!</h1> *@
+            @*         message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} was challenged"); *@
+            @*         message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} cheated and draws 4 cards!"); *@
+            @*     } *@
+            @* *@
+            @*     if (Model.HandleDrawFourCard != null && Model.HandleChallenge != null && !Model.HandleChallenge.DidCheat) *@
+            @*     { *@
+            @*         <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName did not cheat!</h1> *@
+            @*         <h1>Player @Model.AttackResult!.Player!.NickName who challenged @Model.HandleDrawFourCard.PreviousPlayer!.NickName will draw six cards!</h1> *@
+            @*         message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} did not cheat!"); *@
+            @*         message.AppendLine($"{Model.AttackResult.Player!.NickName} who challenged {Model.HandleDrawFourCard.PreviousPlayer!.NickName} will draw six cards!"); *@
+            @*     } *@
+            @*      *@
+            @*     await Model.SetMessage(message.ToString()); *@
+            @* } *@
+            
+        </div>
+        <div class="col-md-3" style="pointer-events: none;">
+            <h1>Active Card: @Model.Engine.State.CurrentPlayCardOnTheTable!.CardValue, @Model.Engine.State.CurrentPlayCardOnTheTable.CardColor</h1>
+            @Html.Raw(Model.Engine.State.CurrentPlayCardOnTheTable!.DisplayCard)
+        </div>
+        <div class="col-md-3">
+            @foreach (var player in Model.Engine.State.Players)
+            {
+                <p style="font-size: 1rem; line-height: 0.5;">
+                    @player.NickName's card count: @player.Hand!.Count
+                </p>
+            }
+            @foreach (var player in Model.Engine.State.Players)
+            {
+                <p style="font-size: 1rem; line-height: 0.5;">
+                    @player.NickName (@player.PlayerType), Position: @player.Position
+                </p>
+            }
+            <p>Direction of play is: @(Model.Engine.State.DirectionOfPlay == DirectionOfPlay.CounterClockwise
+                                         ? "Counter-Clockwise"
+                                         : "Clockwise")
+            </p>
+            <p>
+                Previous player was: @Model.Engine.State.PlayerTurns.Peek().Player!.NickName
+            </p>
+            <p>
+                Amount of cards in draw pile: @Model.Engine.State.DrawPile.Count
+            </p>
+            
+            @if (Model.Engine.State.PreviousTurn != null && Model.Engine.State.PreviousTurn!.DeclaredColor != null)
+            {
+                <p>Declared color is: @Model.Engine.State.PreviousTurn!.DeclaredColor</p>
+            }
+            
+        </div>
+    </div>
+</div>
+
+@if (Model.Engine.State.CurrentPlayer!.Id == Model.PlayerId)
+{
+    @if (Model.DrawCardResult == null && Model.SelectedCardByPlayer == null)
+    {
+        <h1>It is your turn!</h1>
+    }
+    
+    @if (Model.Engine.State.CurrentPlayer!.PlayerType != EPlayerType.AI && Model.PlayCardResult != null)
+    {
+        @if (Model.PlayCardResult.ShouldDeclareColor)
+        {
+            var colors = Model.Engine.PossibleColors();
+            <div class="d-flex justify-content-center align-items-center vh-50">
+                
+                <h1>Please choose color:</h1>
+                
+                <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-handler="SelectColor" class="my-2">
+                    @for (int i = 0; i < colors.Count; i++)
+                    {
+                        <button style="background-color: @colors[i]; width: 90px; height: 90px;"
+                                type="submit" name="selectedColor" value="@((int)colors[i] + 1)" class="m-3"></button>
+                    }
+                </form>
+            </div>
+        }
+    }
+    
+    @if(Model.DeclareColorResult != null)
+    {
+        <h1>Declared color is: @Model.DeclareColorResult.PlayerTurn!.DeclaredColor</h1>
+    }
+    
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-handler="SelectCard">
+                <div class="form-group">
+                    <label for="selectedCard" class="control-label">Your cards:</label>
+                    <div class="form-group d-flex flex-wrap" style="pointer-events: none;">
+                        @foreach (var card in Model.Engine.State.CurrentPlayer!.Hand!.OrderBy(c => c.CardColor))
+                        {
+                            <button type="submit" name="selectedCard" value="@card.Id" class="btn-outline-light custom-card-btn">
+                                @if(Model.PlayableCards.Contains(card))
+                                {
+                                    <div style="pointer-events: all;">
+                                        @Html.Raw(card.DisplayCard)
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div style="opacity: 0.1">
+                                        @Html.Raw(card.DisplayCard)
+                                    </div>
+                                }
+                            </button>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+}
+else
+{
+    <h5>Reload page in <span id="reload-label">-</span></h5>
+    
+    <div>@Model.ChosenPlayer.NickName, you are in position @Model.ChosenPlayer.Position</div>
+    <div>Play direction is @Model.Engine.State.DirectionOfPlay</div>
+    <div>You have to wait for your turn!</div>
+    
+}
+
+@if (Model.DrawCardResult != null && Model.DrawCardResult.IsOutOfCards)
+{
+    <div>"Out of cards!"</div>
+}
+
+<form id="switchToNextPlayer" method="post" asp-route-GameId="@Model.GameId"
+      asp-route-PlayerId="@Model.PlayerId" asp-page-handler="SwitchToNextPlayer"></form>

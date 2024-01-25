@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+
+&copy;2010-{{ $currentDate }}
+
+<div tpl-foreach="$orderLines as $orderLine">
+    Product: {{ $orderLine->productName }}
+    Price: {{ $orderLine->price }}
+    <span tpl-if="$orderLine->inStock">In stock</span>
+    <span tpl-if="!$orderLine->inStock">Not in stock</span>
+</div>
+
+<div tpl-include="{{ $subTemplatePath }}"></div>
+
+{{ join('|', $colors) }}
+
+</body>
+</html>

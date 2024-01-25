@@ -1,0 +1,64 @@
+@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WebApp.Pages.Games.IndexModel
+
+@{
+    ViewData["Title"] = "UNO";
+}
+
+<h1>Uno Card game</h1>
+
+<p>
+    <a asp-page="Create">Start new game</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Continue Playing
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Game[0].CreatedAtDt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Game[0].UpdatedAtDt)
+        </th>
+        <th>
+            Continue as...
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var game in Model.Game)
+    {
+        <tr>
+            <td>
+                <a asp-page="/Play/Index" asp-route-GameId="@game.Id">Continue</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => game.CreatedAtDt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => game.UpdatedAtDt)
+            </td>
+            <td>
+                @game.Players!.Count -
+                @foreach (var player in game.Players)
+                {
+                    <h1>@player.Id</h1>
+                    var playerLabel = player.NickName + "(" + player.PlayerType + ")";
+                    <a asp-page="/Play/Index" asp-route-GameId="@game.Id" asp-route-PlayerId="@player.Id">@playerLabel</a>
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@game.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@game.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@game.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

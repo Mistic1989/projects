@@ -1,0 +1,22 @@
+body {
+    width: 25rem;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+input[type=number] {
+    width: 2rem
+}
+
+td {
+    text-align: right
+}
+
+nav {
+    text-align: center;
+}
+
+form {
+    width: 10rem;
+    margin: 0 auto;
+}

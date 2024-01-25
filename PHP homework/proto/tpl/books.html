@@ -1,0 +1,48 @@
+
+<body id="book-list-page">
+
+<div class="main">
+    <header>
+
+        <nav tpl-include="{{ $menu }}">
+
+        </nav>
+        <br>
+        <tpl tpl-if="$message">
+            <span class='message' id='error-block'>{{ $message }}</span>
+        </tpl>
+        <br>
+
+        <div class="grid-container">
+            <div>Pealkiri</div>
+            <div>Autorid</div>
+            <div>Hinne</div>
+
+            <div class="breakline"></div>
+            <div class="breakline"></div>
+            <div class="breakline"></div>
+
+            <tpl tpl-foreach="$books as $book">
+
+                <div class='grid-item'>
+                    <a href='?command=book-edit&id={{ strval($book->id) }}'>{{$book->title}}</a>
+                </div>
+                <div class='grid-item'>
+                    <tpl tpl-foreach="$book->authors as $author">
+                        {{$author->firstName }} {{$author->lastName}}<tpl tpl-if="!$last">, </tpl>
+                    </tpl>
+                </div>
+                <div class='grid-item score-empty'>
+                    <tpl tpl-foreach="range(1, 5) as $grade" tpl-trim-contents>
+                        <span tpl-class="score-filled if $book->grade >= $grade">&#9733;</span>
+                    </tpl>
+                </div>
+
+            </tpl>
+
+        </div>
+        <br>
+        <footer tpl-include="{{ $footer }}"></footer>
+    </header>
+</div>
+</body>

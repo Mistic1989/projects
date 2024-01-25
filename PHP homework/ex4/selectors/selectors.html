@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<main>
+
+    <p class="a">1</p> <!-- green, italic  -->
+
+    <p><span class="b">2</span></p> <!-- red, normal  -->
+
+    <span class="a">3</span> <!-- green, italic  -->
+
+    <div class="c">4</div> <!-- blue, italic  -->
+
+    <div><span class="b">5</span></div> <!-- blue, italic  -->
+
+    <div>
+        <p>6</p>       <!-- red, normal  -->
+        <section>
+            <p>7</p>   <!-- blue, italic  -->
+        </section>
+    </div>
+
+</main>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+        let correct = 0;
+
+        correct += style('1', 'green', 'italic');
+        correct += style('2', 'red', 'normal');
+        correct += style('3', 'green', 'italic');
+        correct += style('4', 'blue', 'italic');
+        correct += style('5', 'blue', 'italic');
+        correct += style('6', 'red', 'normal');
+        correct += style('7', 'blue', 'italic');
+
+        const message = `${correct} of 7 correct`;
+
+        document.body.append(document.createTextNode(message));
+
+        function style(number, color, fontStyle) {
+            const style = findStyle(document, number);
+            return (style.fontStyle === fontStyle
+                && rgbToColor(style.color) === color) ? 1 : 0;
+        }
+
+        function findStyle(node, num) {
+            if (node.nodeType === 3 && node.nodeValue === num) {
+                return getComputedStyle(node.parentNode);
+            }
+
+            for (let child of node.childNodes) {
+                const style = findStyle(child, num);
+                if (style) {
+                    return style;
+                }
+            }
+        }
+
+        function rgbToColor(rgbString) {
+            const [r, g, b] = rgbString
+                .replace(/[^\d,]/g, '')
+                .split(',')
+                .map(string => parseInt(string))
+
+            if (r > 0) {
+                return 'red';
+            } else if (g > 0) {
+                return 'green';
+            } else if (b > 0) {
+                return 'blue';
+            } else {
+                return 'black';
+            }
+        }
+
+    </script>
+
+</body>
+</html>

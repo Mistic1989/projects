@@ -1,0 +1,113 @@
+plugins {
+    id 'application'
+    id 'org.gretty' version '4.1.0'
+}
+
+sourceCompatibility = 17
+
+def jsonWebTokenVersion = '0.12.3'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation 'org.jetbrains:annotations:24.0.0'
+    compileOnly group: 'jakarta.servlet',
+                name: 'jakarta.servlet-api',
+                version: '6.0.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    
+    implementation group: 'org.springframework',
+            name: 'spring-orm',
+            version: '6.0.13'
+
+    implementation group: 'org.hibernate',
+            name: 'hibernate-core',
+            version: '6.3.1.Final'
+
+    implementation group: 'org.hibernate',
+            name: 'hibernate-validator',
+            version: '8.0.1.Final'
+
+    implementation group: 'org.springframework',
+            name: 'spring-webmvc',
+            version: '6.0.13'
+
+    implementation group: 'org.springframework.security',
+            name: 'spring-security-web',
+            version: '6.1.5'
+
+    implementation group: 'org.springframework.security',
+            name: 'spring-security-config',
+            version: '6.1.5'
+
+    implementation group: 'org.springframework',
+            name: 'spring-jdbc',
+            version: '6.0.13'
+
+    implementation group: 'org.springframework',
+            name: 'spring-context',
+            version: '6.0.9'
+
+    implementation group: 'org.hsqldb',
+            name: 'hsqldb',
+            version: '2.7.1'
+
+    implementation group: 'com.fasterxml.jackson.core',
+            name: 'jackson-databind',
+            version: '2.15.1'
+
+    implementation group: 'org.postgresql',
+            name: 'postgresql',
+            version: '42.5.4'
+
+    implementation group: 'org.apache.commons',
+            name: 'commons-dbcp2',
+            version: '2.9.0'
+
+    implementation group: 'org.apache.logging.log4j',
+            name: 'log4j-api',
+            version: '2.20.0'
+
+    implementation group: 'org.apache.logging.log4j',
+            name: 'log4j-core',
+            version: '2.20.0'
+
+    implementation group: 'io.jsonwebtoken',
+            name: 'jjwt-api',
+            version: jsonWebTokenVersion
+
+    implementation group: 'io.jsonwebtoken',
+            name: 'jjwt-impl',
+            version: jsonWebTokenVersion
+
+    implementation group: 'io.jsonwebtoken',
+            name: 'jjwt-jackson',
+            version: jsonWebTokenVersion
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    mainClass.set('icd0011.Initializer')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+gretty {
+    contextPath = '/'
+}

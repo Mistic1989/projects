@@ -1,0 +1,24 @@
+body {
+    width: 30rem;
+    margin: 1rem auto;
+    font-family: Arial, sans-serif;
+}
+
+.message-block {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: .25rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.message-block.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.message-block.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}

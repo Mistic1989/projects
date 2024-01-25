@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PDMPlugin">
+    <option name="customRuleSets">
+      <list>
+        <option value="C:\Users\Alo_A\IdeaProjects\icd0019\pmd-rules.xml" />
+        <option value="C:\Users\Procurator_Myyk005\IdeaProjects\icd0019\pmd-rules.xml" />
+      </list>
+    </option>
+    <option name="options">
+      <map>
+        <entry key="Statistics URL" value="" />
+        <entry key="Target JDK" value="11" />
+      </map>
+    </option>
+    <option name="skipTestSources" value="false" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

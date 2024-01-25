@@ -1,0 +1,13 @@
+main {
+    color: blue;
+    font-style: italic;
+}
+
+p span, div > p {
+    color: red;
+    font-style: normal;
+}
+
+.a {
+    color: green;
+}

@@ -1,0 +1,180 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using UnoEngine
+@using System.Text
+@using Domain
+@model WebApp.Pages.Play.HandleAttack
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+
+@if (Model.DirectionOfPlay)
+{
+    var message = "Direction of play is now "
+              + (Model.Engine.State.DirectionOfPlay == DirectionOfPlay.CounterClockwise
+                  ? "counter-clockwise" : "clockwise");
+    
+    <h1>message</h1>
+}
+
+@if (Model.AttackResult != null)
+{
+    
+    StringBuilder message = new StringBuilder();
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+           
+            </div>
+            <div class="col-md-4">
+                
+                
+                @if (Model.HandleAttackByPreviousPlayer != null && Model.HandleAttackByPreviousPlayer.ShouldHandleSkipCard)
+                {
+                    <h1>Player @Model.AttackResult!.Player!.NickName was skipped!</h1>
+                    message.AppendLine($"Player {Model.AttackResult!.Player!.NickName} was skipped!");
+                }
+                @if (Model.HandleAttackByPreviousPlayer != null && Model.HandleAttackByPreviousPlayer.ShouldHandleDrawTwoCard)
+                {
+                    <h1>Player @Model.AttackResult.Player!.NickName drew @(Model.HandleAttackByPreviousPlayer.StackCount * 2) cards!</h1>
+                    message.AppendLine($"Player {Model.AttackResult.Player!.NickName} drew {Model.HandleAttackByPreviousPlayer.StackCount * 2} cards!");
+                }
+                @if (Model.HandleAttackByPreviousPlayer != null && Model.HandleAttackByPreviousPlayer.ShouldHandleDrawFourCard)
+                {
+                    <h1>Previous player played Draw Four card!</h1>
+                    message.AppendLine("Previous player played Draw Four card!");
+                     
+                    if (Model.Engine.State.CurrentPlayer!.PlayerType == EPlayerType.Human)
+                    {
+                        // WriteLine("Press 'c' to challenge previous player or 'Enter' to continue");
+                    }
+                    
+                    @* <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" *@
+                    @*       asp-route-handler="HandleChallengeDrawFour"> *@
+                    @*     <div><button type="submit" class="btn btn-success btn-lg" name="input" value="c">Challenge player @Model.PreviousTurn!.Player!.NickName</button></div> *@
+                    @*     <div><button type="submit" class="btn btn-success btn-lg" name="input" value="">Skip</button></div> *@
+                    @* </form> *@
+        
+                    @* if (Model.HandleDrawFourCard != null && Model.HandleDrawFourCard.ShouldDrawCards) *@
+                    @* { *@
+                    @*     <h1>Player @Model.AttackResult.Player!.NickName will draw @(Model.HandleDrawFourCard.StackCount * 4) cards!</h1> *@
+                    @*     message.AppendLine($"Player {Model.AttackResult.Player!.NickName} will draw {Model.HandleDrawFourCard.StackCount * 4} cards!"); *@
+                    @*     // WriteLine($"Player {attackResult.Player!.NickName}" + *@
+                    @*     //                   $" will draw {handleDrawFourResult.StackCount * 4} cards!"); *@
+                    @* } *@
+                    @* *@
+                    @* if (Model.HandleDrawFourCard != null && Model.HandleChallenge != null && Model.HandleChallenge.DidCheat) *@
+                    @* { *@
+                    @*     // WriteLine($"LAST PLAY CARD ON THE TABLE WAS:" + *@
+                    @*     //                   $" {handleChallengeResult.PenultimateCard!.CardValue}" + *@
+                    @*     //                   $" {handleChallengeResult.PenultimateCard!.CardColor}"); *@
+                    @*     // WriteLine(); *@
+                    @*     // WriteLine($"Previous player {handleDrawFourResult.PreviousPlayer!.NickName}" + *@
+                    @*     //                   $" had these cards:"); *@
+                    @*     // handleDrawFourResult.PreviousPlayer!.Hand!.ForEach(x => *@
+                    @*     // WriteLine($"{x.CardValue}, {x.CardColor}")); *@
+                    @*     // WriteLine($"{handleDrawFourResult.PreviousPlayer?.NickName}" + *@
+                    @*     //                   $" cheated and draws 4 cards!"); *@
+                    @*     <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName was challenged</h1> *@
+                    @*     <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName cheated and draws 4 cards!</h1> *@
+                    @*     message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} was challenged"); *@
+                    @*     message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} cheated and draws 4 cards!"); *@
+                    @* } *@
+                    @* *@
+                    @* if (Model.HandleDrawFourCard != null && Model.HandleChallenge != null && !Model.HandleChallenge.DidCheat) *@
+                    @* { *@
+                    @*     <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName did not cheat!</h1> *@
+                    @*     <h1>Player @Model.AttackResult.Player!.NickName who challenged @Model.HandleDrawFourCard.PreviousPlayer!.NickName will draw six cards!</h1> *@
+                    @*     message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} did not cheat!"); *@
+                    @*     message.AppendLine($"{Model.AttackResult.Player!.NickName} who challenged {Model.HandleDrawFourCard.PreviousPlayer!.NickName} will draw six cards!"); *@
+                    @* } *@
+                    
+                    @* if (Model.HandleDrawFourCard != null && Model.HandleDrawFourCard.ShouldDrawCards) *@
+                    @* { *@
+                    @*     <h1>Player @Model.AttackResult.Player!.NickName will draw @(Model.HandleDrawFourCard.StackCount * 4) cards!</h1> *@
+                    @*     message.AppendLine($"Player {Model.AttackResult.Player!.NickName} will draw {Model.HandleDrawFourCard.StackCount * 4} cards!"); *@
+                    @* } *@
+                }
+                
+            </div>
+            <div class="col-md-4">
+            
+            </div>
+        </div>
+    </div>
+    
+    <h5>Switching to next player in: <span id="counter">-</span></h5>
+    <form id="switchToNextPlayer" method="post" asp-route-GameId="@Model.GameId"
+          asp-route-PlayerId="@Model.PlayerId" asp-page-handler="SwitchPlayer"></form>
+    
+    @if (Model.HandleAttackByPreviousPlayer != null && Model.HandleAttackByPreviousPlayer.ShouldHandleDrawFourCard)
+    {
+        @* <form method="post" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" *@
+        @*       asp-route-AttackResult="@Model.AttackResult" *@
+        @*       asp-route-HandleAttackByPreviousPlayer="@Model.HandleAttackByPreviousPlayer" *@
+        @*       asp-route-handler="HandleChallengeDrawFour"> *@
+        @*     <div><button type="submit" class="btn btn-success btn-lg" name="input" value="c">Challenge player @Model.PreviousTurn!.Player!.NickName</button></div> *@
+        @*     <div><button type="submit" class="btn btn-success btn-lg" name="input" value="">Skip</button></div> *@
+        @* </form> *@
+        @* *@
+        @* if (Model.HandleDrawFourCard != null && Model.HandleDrawFourCard.ShouldDrawCards) *@
+        @* { *@
+        @*     <h1>Player @Model.AttackResult.Player!.NickName will draw @(Model.HandleDrawFourCard.StackCount * 4) cards!</h1> *@
+        @*     message.AppendLine($"Player {Model.AttackResult.Player!.NickName} will draw {Model.HandleDrawFourCard.StackCount * 4} cards!"); *@
+        @*     // WriteLine($"Player {attackResult.Player!.NickName}" + *@
+        @*     //                   $" will draw {handleDrawFourResult.StackCount * 4} cards!"); *@
+        @* } *@
+        @* *@
+        @* if (Model.HandleDrawFourCard != null && Model.HandleChallenge != null && Model.HandleChallenge.DidCheat) *@
+        @* { *@
+        @*     // WriteLine($"LAST PLAY CARD ON THE TABLE WAS:" + *@
+        @*     //                   $" {handleChallengeResult.PenultimateCard!.CardValue}" + *@
+        @*     //                   $" {handleChallengeResult.PenultimateCard!.CardColor}"); *@
+        @*     // WriteLine(); *@
+        @*     // WriteLine($"Previous player {handleDrawFourResult.PreviousPlayer!.NickName}" + *@
+        @*     //                   $" had these cards:"); *@
+        @*     // handleDrawFourResult.PreviousPlayer!.Hand!.ForEach(x => *@
+        @*     // WriteLine($"{x.CardValue}, {x.CardColor}")); *@
+        @*     // WriteLine($"{handleDrawFourResult.PreviousPlayer?.NickName}" + *@
+        @*     //                   $" cheated and draws 4 cards!"); *@
+        @*     <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName was challenged</h1> *@
+        @*     <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName cheated and draws 4 cards!</h1> *@
+        @*     message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} was challenged"); *@
+        @*     message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} cheated and draws 4 cards!"); *@
+        @* } *@
+        @* *@
+        @* if (Model.HandleDrawFourCard != null && Model.HandleChallenge != null && !Model.HandleChallenge.DidCheat) *@
+        @* { *@
+        @*     <h1>@Model.HandleDrawFourCard.PreviousPlayer?.NickName did not cheat!</h1> *@
+        @*     <h1>Player @Model.AttackResult.Player!.NickName who challenged @Model.HandleDrawFourCard.PreviousPlayer!.NickName will draw six cards!</h1> *@
+        @*     message.AppendLine($"{Model.HandleDrawFourCard.PreviousPlayer?.NickName} did not cheat!"); *@
+        @*     message.AppendLine($"{Model.AttackResult.Player!.NickName} who challenged {Model.HandleDrawFourCard.PreviousPlayer!.NickName} will draw six cards!"); *@
+        @* } *@
+    }
+    
+    await Model.SetMessage(message.ToString());
+    
+}
+else
+{
+    <form id="switchPlayer" method="post" asp-route-GameId="@Model.GameId"
+          asp-route-PlayerId="@Model.PlayerId"
+          asp-route-AttackResult="@Model.AttackResult"
+          asp-route-HandleDrawFourCard="@Model.HandleDrawFourCard"
+          asp-page-handler="SwitchPlayer"></form>
+    
+    <script>
+        window.onload = function() {
+            let switchPlayer = document.querySelector("#switchPlayer");
+            if (switchPlayer) {
+                switchPlayer.submit();
+            }
+        };
+    </script>
+}
+
+
+@* <a asp-page="/Play/Index" id="switchToNextPlayer" asp-route-GameId="@Model.GameId" *@
+@*       asp-route-PlayerId="@Model.PlayerId">Continue</a> *@

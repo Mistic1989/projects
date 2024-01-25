@@ -1,0 +1,23 @@
+﻿@page
+@model WebApp.Pages.Menu.NewGame
+
+<nav class="navbar navbar-light bg-light d-flex flex-column align-items-center">
+    <a class="navbar-brand mb-3" href="#">Main Menu</a>
+    <ul class="navbar-nav flex-column text-center">
+        @* <li class="nav-item mb-2"> *@
+        @*     <a class="nav-link" asp-page="/Index">Home</a> *@
+        @* </li> *@
+        <li class="nav-item mb-2">
+            <a class="nav-link" asp-page="/Games/Index">Start New Game</a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link" asp-page="/Games/Index">Set Players count</a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link" asp-page="/Games/Index">Set Players names and types</a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link" asp-page="/Options/Index">Back</a>
+        </li>
+    </ul>
+</nav>

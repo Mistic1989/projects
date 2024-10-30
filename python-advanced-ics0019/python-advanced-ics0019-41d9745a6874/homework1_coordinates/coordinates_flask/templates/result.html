@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>RESULT:</h2>
+    <h2>Latitude: {{form_data[0]}}</h2>
+    <h2>Longitude: {{form_data[1]}}</h2>
+    <a href="{{ url_for('index') }}"><input value="Home" type="submit"/></a>
+{% endblock %}

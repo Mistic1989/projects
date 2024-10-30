@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h5 style="font-size: 42px">Convert coordinates from L-Est97 to WGS84 and vice versa</h5>
+    <form action="/form" method = "POST">
+        <h2><input type = "submit" name = "lest97" value = "CONVERT COORDINATES FROM L-Est97 TO WGS84" /></h2>
+        <h2><input type = "submit" name = "wgs84" value = "CONVERT COORDINATES FROM WGS84 TO L-Est97" /></h2>
+    </form>
+{% endblock %}

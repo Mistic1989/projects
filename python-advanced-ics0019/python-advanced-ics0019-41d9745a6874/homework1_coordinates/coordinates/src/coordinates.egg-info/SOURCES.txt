@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+src/coordinates.egg-info/PKG-INFO
+src/coordinates.egg-info/SOURCES.txt
+src/coordinates.egg-info/__init__.py
+src/coordinates.egg-info/dependency_links.txt
+src/coordinates.egg-info/top_level.txt
+src/coordinates_package/__init__.py
+src/coordinates_package/coordinates.py
+tests/test_coordinates.py

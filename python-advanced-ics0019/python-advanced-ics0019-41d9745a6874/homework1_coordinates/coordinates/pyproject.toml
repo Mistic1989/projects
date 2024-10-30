@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coordinates"
+version = "0.0.5"
+authors = [
+  { name="Alo Ansberg", email="alansb@ttu.ee" },
+]
+description = "Module that converts coordinates from WGS84 to L-Est97 and vice versa"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
